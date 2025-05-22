@@ -1,50 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automated Accounting System</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoLedger - Automated Accounting System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Automated Accounting System</h1>
-  </header>
-  <nav>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#transactions">Transactions</a>
-    <a href="#reports">Reports</a>
-  </nav>
-  <div class="container">
-    <div class="card" id="dashboard">
-      <h2>Dashboard</h2>
-      <p>Total Balance: <span id="balance">$0.00</span></p>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>AutoLedger</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Invoices</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Clients</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="theme-toggle">
+                <span>Dark Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="user-actions">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
+                        <span>Jane Smith</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard">
+                <h2>Dashboard</h2>
+                <div class="stats-cards">
+                    <div class="card">
+                        <div class="card-icon income">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Income</h3>
+                            <p>$24,780.00</p>
+                            <span class="positive">+12% from last month</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon expense">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Expenses</h3>
+                            <p>$8,420.00</p>
+                            <span class="negative">-5% from last month</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon profit">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Net Profit</h3>
+                            <p>$16,360.00</p>
+                            <span class="positive">+18% from last month</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon clients">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Active Clients</h3>
+                            <p>42</p>
+                            <span class="positive">+3 this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="chart-container">
+                        <h3>Income vs Expenses</h3>
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Expense Breakdown</h3>
+                        <canvas id="expenseBreakdownChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="recent-transactions">
+                    <div class="section-header">
+                        <h3>Recent Transactions</h3>
+                        <button class="btn">View All</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTable">
+                            <!-- Transactions will be loaded here via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div class="card" id="transactions">
-      <h2>Transactions</h2>
-      <form id="transaction-form">
-        <input type="text" id="desc" placeholder="Description" required />
-        <input type="number" id="amount" placeholder="Amount" required />
-        <button type="submit">Add Transaction</button>
-      </form>
-      <table class="responsive-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody id="transaction-table"></tbody>
-      </table>
-    </div>
-
-    <div class="card" id="reports">
-      <h2>Reports</h2>
-      <p>Coming soon...</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
