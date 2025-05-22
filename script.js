@@ -136,6 +136,40 @@ function initCharts() {
     });
 }
 
+// Hamburger Menu Functionality
+const hamburger = document.getElementById('hamburger');
+const sidebar = document.querySelector('.sidebar');
+const lines = document.querySelectorAll('.hamburger .line');
+
+hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    
+    // Animate hamburger to X
+    if (sidebar.classList.contains('active')) {
+        lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        lines[1].style.opacity = '0';
+        lines[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+        lines[0].style.transform = 'rotate(0) translate(0)';
+        lines[1].style.opacity = '1';
+        lines[2].style.transform = 'rotate(0) translate(0)';
+    }
+});
+
+// Close sidebar when clicking outside
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 992 && 
+        !sidebar.contains(e.target) && 
+        !hamburger.contains(e.target) &&
+        sidebar.classList.contains('active')) {
+        
+        sidebar.classList.remove('active');
+        lines[0].style.transform = 'rotate(0) translate(0)';
+        lines[1].style.opacity = '1';
+        lines[2].style.transform = 'rotate(0) translate(0)';
+    }
+});
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
     populateTransactions();
