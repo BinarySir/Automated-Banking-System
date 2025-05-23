@@ -20,19 +20,9 @@
                 <ul>
                     <li class="active"><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
-                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Invoices</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Clients</a></li>
                     <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
                 </ul>
             </nav>
-            <div class="theme-toggle">
-                <span>Dark Mode</span>
-                <label class="switch">
-                    <input type="checkbox" id="themeToggle">
-                    <span class="slider round"></span>
-                </label>
-            </div>
         </aside>
 
         <!-- Main Content -->
@@ -45,10 +35,7 @@
                         <div class="line"></div>
                         <div class="line"></div>
                     </div>
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search...">
-                    </div>
+                   <div><span>Welcome</span></div>
                 </div>
                 <div class="user-actions">
                     <div class="notifications">
@@ -72,7 +59,7 @@
                         </div>
                         <div class="card-info">
                             <h3>Total Income</h3>
-                            <p>$24,780.00</p>
+                            <p>#24,780.00</p>
                             <span class="positive">+12% from last month</span>
                         </div>
                     </div>
@@ -82,7 +69,7 @@
                         </div>
                         <div class="card-info">
                             <h3>Total Expenses</h3>
-                            <p>$8,420.00</p>
+                            <p>#8,420.00</p>
                             <span class="negative">-5% from last month</span>
                         </div>
                     </div>
@@ -92,7 +79,7 @@
                         </div>
                         <div class="card-info">
                             <h3>Net Profit</h3>
-                            <p>$16,360.00</p>
+                            <p>#16,360.00</p>
                             <span class="positive">+18% from last month</span>
                         </div>
                     </div>
@@ -108,16 +95,7 @@
                     </div>
                 </div>
 
-                <div class="charts-row">
-                    <div class="chart-container">
-                        <h3>Income vs Expenses</h3>
-                        <canvas id="incomeExpenseChart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h3>Expense Breakdown</h3>
-                        <canvas id="expenseBreakdownChart"></canvas>
-                    </div>
-                </div>
+              
 
                 <div class="recent-transactions">
                     <div class="section-header">
@@ -144,7 +122,68 @@
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add Transaction Modal -->
+<div class="modal" id="addTransactionModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add New Transaction</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label for="transactionDate">Date</label>
+                    <input type="date" id="transactionDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionDescription">Description</label>
+                    <input type="text" id="transactionDescription" placeholder="Enter description" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionCategory">Category</label>
+                    <select id="transactionCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Income">Income</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Salaries">Salaries</option>
+                        <option value="Supplies">Supplies</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transactionAmount">Amount (#)</label>
+                    <input type="number" id="transactionAmount" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionType">Type</label>
+                    <select id="transactionType" required>
+                        <option value="">Select type</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transactionStatus">Status</label>
+                    <select id="transactionStatus" required>
+                        <option value="paid">Paid</option>
+                        <option value="pending">Pending</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Transaction</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Floating Action Button -->
+<div class="fab" id="addTransactionBtn">
+    <i class="fas fa-plus"></i>
+</div>
+
+   
     <script src="script.js"></script>
 </body>
 </html>

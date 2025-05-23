@@ -1,35 +1,75 @@
-// Theme Toggle Functionality
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
+// Transaction Management
+let transactions = JSON.parse(localStorage.getItem('transactions')) || [
+    { id: 1, date: '2023-06-15', description: 'Website Design', category: 'Services', amount: 1200.00, type: 'income', status: 'paid' },
+    { id: 2, date: '2023-06-14', description: 'Office Rent', category: 'Rent', amount: 1500.00, type: 'expense', status: 'paid' },
+    { id: 3, date: '2023-06-13', description: 'Marketing Campaign', category: 'Marketing', amount: 750.50, type: 'expense', status: 'pending' },
+    { id: 4, date: '2023-06-12', description: 'Software Subscription', category: 'Software', amount: 99.00, type: 'expense', status: 'paid' },
+    { id: 5, date: '2023-06-10', description: 'Office Supplies', category: 'Supplies', amount: 245.75, type: 'expense', status: 'paid' },
+    { id: 6, date: '2023-06-08', description: 'Client Dinner', category: 'Entertainment', amount: 175.30, type: 'expense', status: 'failed' }
+];
 
-// Check for saved theme preference or use preferred color scheme
-const savedTheme = localStorage.getItem('theme') || 
-                   (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+// DOM Elements
+const addTransactionBtn = document.getElementById('addTransactionBtn');
+const modal = document.getElementById('addTransactionModal');
+const closeModal = document.querySelector('.close-modal');
+const transactionForm = document.getElementById('transactionForm');
 
-if (savedTheme === 'dark') {
-    body.setAttribute('data-theme', 'dark');
-    themeToggle.checked = true;
+// Modal Functions
+function openModal() {
+    modal.style.display = 'block';
+    document.getElementById('transactionDate').valueAsDate = new Date();
 }
 
-themeToggle.addEventListener('change', () => {
-    if (themeToggle.checked) {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        body.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
+function closeModalFunc() {
+    modal.style.display = 'none';
+    transactionForm.reset();
+}
+
+// Event Listeners
+addTransactionBtn.addEventListener('click', openModal);
+closeModal.addEventListener('click', closeModalFunc);
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModalFunc();
     }
 });
 
-// Sample Transaction Data
-const transactions = [
-    { id: 1, date: '2023-06-15', description: 'Website Design', category: 'Services', amount: 1200.00, status: 'paid' },
-    { id: 2, date: '2023-06-14', description: 'Office Rent', category: 'Rent', amount: 1500.00, status: 'paid' },
-    { id: 3, date: '2023-06-13', description: 'Marketing Campaign', category: 'Marketing', amount: 750.50, status: 'pending' },
-    { id: 4, date: '2023-06-12', description: 'Software Subscription', category: 'Software', amount: 99.00, status: 'paid' },
-    { id: 5, date: '2023-06-10', description: 'Office Supplies', category: 'Supplies', amount: 245.75, status: 'paid' },
-    { id: 6, date: '2023-06-08', description: 'Client Dinner', category: 'Entertainment', amount: 175.30, status: 'failed' }
-];
+// Form Submission
+transactionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const newTransaction = {
+        id: Date.now(),
+        date: document.getElementById('transactionDate').value,
+        description: document.getElementById('transactionDescription').value,
+        category: document.getElementById('transactionCategory').value,
+        amount: parseFloat(document.getElementById('transactionAmount').value),
+        type: document.getElementById('transactionType').value,
+        status: document.getElementById('transactionStatus').value
+    };
+    
+    addTransaction(newTransaction);
+    closeModalFunc();
+    updateDashboard();
+});
+
+// Transaction Functions
+function addTransaction(transaction) {
+    transactions.unshift(transaction);
+    saveTransactions();
+    populateTransactions();
+}
+
+function deleteTransaction(id) {
+    transactions = transactions.filter(transaction => transaction.id !== id);
+    saveTransactions();
+    populateTransactions();
+    updateDashboard();
+}
+
+function saveTransactions() {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+}
 
 // Populate Transactions Table
 function populateTransactions() {
@@ -43,97 +83,48 @@ function populateTransactions() {
             <td>${transaction.date}</td>
             <td>${transaction.description}</td>
             <td>${transaction.category}</td>
-            <td>$${transaction.amount.toFixed(2)}</td>
+            <td>#${transaction.amount.toFixed(2)}</td>
             <td><span class="status ${transaction.status}">${transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}</span></td>
             <td class="actions">
                 <i class="fas fa-edit" title="Edit"></i>
-                <i class="fas fa-trash" title="Delete"></i>
+                <i class="fas fa-trash" title="Delete" data-id="${transaction.id}"></i>
                 <i class="fas fa-receipt" title="View Receipt"></i>
             </td>
         `;
         
         tableBody.appendChild(row);
     });
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.fa-trash').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const id = parseInt(e.target.getAttribute('data-id'));
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                deleteTransaction(id);
+            }
+        });
+    });
 }
 
-// Initialize Charts
-function initCharts() {
-    // Income vs Expense Chart
-    const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
-    const incomeExpenseChart = new Chart(incomeExpenseCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [
-                {
-                    label: 'Income',
-                    data: [12000, 15000, 18000, 21000, 19000, 24000],
-                    backgroundColor: '#4cc9f0',
-                    borderRadius: 5
-                },
-                {
-                    label: 'Expenses',
-                    data: [8000, 9500, 7000, 11000, 12000, 8500],
-                    backgroundColor: '#f8961e',
-                    borderRadius: 5
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return '$' + value.toLocaleString();
-                        }
-                    }
-                }
-            }
-        }
-    });
+// Update Dashboard Stats
+function updateDashboard() {
+    const totalIncome = transactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + t.amount, 0);
     
-    // Expense Breakdown Chart
-    const expenseBreakdownCtx = document.getElementById('expenseBreakdownChart').getContext('2d');
-    const expenseBreakdownChart = new Chart(expenseBreakdownCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Rent', 'Salaries', 'Marketing', 'Software', 'Supplies', 'Other'],
-            datasets: [{
-                data: [30, 40, 15, 5, 7, 3],
-                backgroundColor: [
-                    '#4361ee',
-                    '#3f37c9',
-                    '#4895ef',
-                    '#4cc9f0',
-                    '#f8961e',
-                    '#f72585'
-                ],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'right',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return `${context.label}: ${context.raw}%`;
-                        }
-                    }
-                }
-            }
-        }
-    });
+    const totalExpenses = transactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + t.amount, 0);
+    
+    const netProfit = totalIncome - totalExpenses;
+    const activeClients = new Set(transactions.filter(t => t.type === 'income').map(t => t.description)).size;
+    
+    document.querySelector('.card:nth-child(1) p').textContent = `#${totalIncome.toFixed(2)}`;
+    document.querySelector('.card:nth-child(2) p').textContent = `#${totalExpenses.toFixed(2)}`;
+    document.querySelector('.card:nth-child(3) p').textContent = `#${netProfit.toFixed(2)}`;
+    document.querySelector('.card:nth-child(4) p').textContent = activeClients;
+    
+    updateCharts();
 }
 
 // Hamburger Menu Functionality
@@ -173,5 +164,5 @@ document.addEventListener('click', (e) => {
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
     populateTransactions();
-    initCharts();
+    updateDashboard();
 });
