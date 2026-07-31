@@ -11,12 +11,12 @@
         <!-- User Login Page -->
         <div id="userLoginPage" class="page-section active">
             <div class="header">
-                <h1>💰 Automated Accounting System</h1>
+                <h1>Automated Accounting System</h1>
                 <p>Personal Finance Management</p>
             </div>
 
             <div class="login-card">
-                <h3>🔐 User Login</h3>
+                <h3>User Login</h3>
                 <div class="form-group">
                     <label>Username:</label>
                     <input type="text" id="userUsername" placeholder="Enter your username">
@@ -29,20 +29,20 @@
             </div>
 
             <div class="switch-link">
-                <a href="#" onclick="showUserSignup()">📝 Create New Account</a> | 
-                <a href="#" onclick="showAdminLogin()">🔒 Admin Portal Access</a>
+                <a href="#" onclick="showUserSignup()"> Create New Account</a> | 
+                <a href="#" onclick="showAdminLogin()"> Admin Portal Access</a>
             </div>
         </div>
 
         <!-- User Signup Page -->
         <div id="userSignupPage" class="page-section">
             <div class="header">
-                <h1>💰 Automated Accounting System</h1>
+                <h1> Automated Accounting System</h1>
                 <p>Create Your Personal Finance Account</p>
             </div>
 
             <div class="login-card">
-                <h3>📝 Create New Account</h3>
+                <h3> Create New Account</h3>
                 <div class="form-group">
                     <label>Full Name:</label>
                     <input type="text" id="signupFullName" placeholder="Enter your full name">
@@ -72,19 +72,19 @@
             </div>
 
             <div class="switch-link">
-                <a href="#" onclick="showUserLogin()">👤 Already have an account? Login here</a>
+                <a href="#" onclick="showUserLogin()"> Already have an account? Login here</a>
             </div>
         </div>
 
         <!-- Admin Login Page -->
         <div id="adminLoginPage" class="page-section">
             <div class="admin-header">
-                <h1>🛡️ ADMIN PORTAL</h1>
+                <h1> ADMIN PORTAL</h1>
                 <p>System Administration & Monitoring</p>
             </div>
 
             <div class="login-card">
-                <h3>👨‍💼 Administrator Access</h3>
+                <h3> Administrator Access</h3>
                 <div class="form-group">
                     <label>Admin ID:</label>
                     <input type="text" id="adminUsername" placeholder="Enter admin username">
@@ -102,7 +102,7 @@
             </div>
 
             <div class="switch-link">
-                <a href="#" onclick="showUserLogin()">👤 Back to User Login</a>
+                <a href="#" onclick="showUserLogin()"> Back to User Login</a>
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
         <div class="container dashboard-container">
             <div class="dashboard-header">
                 <div class="user-info">
-                    <h2>👤 Personal Dashboard</h2>
+                    <h2> Personal Dashboard</h2>
                     <p>Welcome back, <span id="currentUser"></span>!</p>
                 </div>
                 <button class="btn btn-secondary" onclick="logout()">Logout</button>
@@ -120,27 +120,27 @@
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>💚 Total Income</h3>
+                    <h3> Total Income</h3>
                     <div class="amount" id="totalIncome">$0.00</div>
                 </div>
                 <div class="stat-card expense">
-                    <h3>💸 Total Expenses</h3>
+                    <h3> Total Expenses</h3>
                     <div class="amount" id="totalExpenses">$0.00</div>
                 </div>
                 <div class="stat-card balance">
-                    <h3>💰 Net Balance</h3>
+                    <h3> Net Balance</h3>
                     <div class="amount" id="netBalance">$0.00</div>
                 </div>
             </div>
 
             <div class="transaction-form">
-                <h3>➕ Add New Transaction</h3>
+                <h3> Add New Transaction</h3>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Type:</label>
                         <select id="transactionType">
-                            <option value="income">💚 Income</option>
-                            <option value="expense">💸 Expense</option>
+                            <option value="income"> Income</option>
+                            <option value="expense"> Expense</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -178,13 +178,13 @@
     <div id="adminDashboard" class="page-section">
         <div class="container dashboard-container">
             <div class="admin-header">
-                <h1>🛡️ SYSTEM ADMINISTRATION</h1>
+                <h1> SYSTEM ADMINISTRATION</h1>
                 <p>Complete System Overview & Transaction Monitoring</p>
             </div>
 
             <div class="dashboard-header">
                 <div class="user-info">
-                    <h2>👨‍💼 Admin Control Panel</h2>
+                    <h2> Admin Control Panel</h2>
                     <p>Logged in as: <span id="currentAdmin"></span></p>
                 </div>
                 <button class="btn btn-secondary" onclick="logout()">Logout</button>
@@ -192,15 +192,15 @@
 
             <div class="stats-grid">
                 <div class="stat-card admin">
-                    <h3>👥 Active Users</h3>
+                    <h3> Active Users</h3>
                     <div class="amount" id="totalUsers">0</div>
                 </div>
                 <div class="stat-card admin">
-                    <h3>📊 Total Transactions</h3>
+                    <h3> Total Transactions</h3>
                     <div class="amount" id="totalTransactions">0</div>
                 </div>
                 <div class="stat-card balance">
-                    <h3>💰 System Balance</h3>
+                    <h3> System Balance</h3>
                     <div class="amount" id="systemTotal">$0.00</div>
                 </div>
             </div>
